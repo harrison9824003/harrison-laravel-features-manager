@@ -1,11 +1,11 @@
 <?php
 
-namespace Harrison\LaravelProduct\Models;
+namespace Harrison\LaravelFeatureManager\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Harrison\LaravelProduct\Traits\HasModelId;
-use Harrison\LaravelProduct\Models\DataTypeFolder;
+use Harrison\LaravelFeatureManager\Traits\HasModelId;
+use Harrison\LaravelFeatureManager\Models\DataTypeFolder;
 
 class DataType extends Model
 {

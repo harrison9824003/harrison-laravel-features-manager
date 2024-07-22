@@ -1,6 +1,6 @@
 <?php
 
-namespace Harrison\LaravelProduct\Traits;
+namespace Harrison\LaravelFeatureManager\Traits;
 
 /**
  * 設定 model id, 提供給共用圖片資料分辨屬於哪一個 model 下的資料
