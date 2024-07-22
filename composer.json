@@ -1,0 +1,15 @@
+{
+    "name": "harrison/harrison-laravel-features-manager",
+    "autoload": {
+        "psr-4": {
+            "Harrison\\HarrisonLaravelFeaturesManager\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "harrison",
+            "email": "harrison9824003@gmail.com"
+        }
+    ],
+    "require": {}
+}
