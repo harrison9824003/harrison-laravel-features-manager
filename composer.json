@@ -2,7 +2,7 @@
     "name": "harrison/harrison-laravel-features-manager",
     "autoload": {
         "psr-4": {
-            "Harrison\\HarrisonLaravelFeaturesManager\\": "src/"
+            "Harrison\\LaravelFeatureManager\\": "src/"
         }
     },
     "authors": [
@@ -11,5 +11,14 @@
             "email": "harrison9824003@gmail.com"
         }
     ],
-    "require": {}
+    "require-dev": {
+        "phpunit/phpunit": "^11.2",
+        "orchestra/testbench": "^9.2"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Harrison\\LaravelFeatureManager\\Tests\\": "tests/",
+            "Database\\Factories\\Harrison\\LaravelFeatureManager\\Models\\": "database/"
+        }
+    }
 }

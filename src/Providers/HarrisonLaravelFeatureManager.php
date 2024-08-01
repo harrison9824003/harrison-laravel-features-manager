@@ -3,13 +3,14 @@ namespace Harrison\LaravelFeatureManager\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class HarrisonLaravelFeatureManger extends ServiceProvider
+class HarrisonLaravelFeatureManager extends ServiceProvider
 {
     /**
      * Register services.
      */
     public function register(): void
-    {        
+    {
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
     }
 
     /**

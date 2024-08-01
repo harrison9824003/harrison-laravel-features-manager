@@ -16,7 +16,7 @@ class CreatePjDatatypeFolderTable extends Migration
         Schema::create('pj_datatype_folder', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255)->comment('分類名稱');
-            $table->text('models')->comment('包含的 Model');
+            $table->text('models')->comment('包含的 Model，json 格式');
             $table->timestamps();
         });
     }

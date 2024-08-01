@@ -16,8 +16,9 @@ class DataType extends Model
 
     protected $fillable = [
         'id',
+        'feature',
         'name',
-        'class_name',
+        'model',
         'disabled',
         'icon',
         'folder_id',
