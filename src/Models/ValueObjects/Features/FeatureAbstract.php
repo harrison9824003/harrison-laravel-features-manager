@@ -21,7 +21,7 @@ abstract class FeatureAbstract {
     /**
      * @var string $root 功能路由 root
      */
-    private string $root;
+    private string $routerPath;
 
     /**
      * @var int $id 功能 id
@@ -32,6 +32,11 @@ abstract class FeatureAbstract {
      * @var Feature[] $subFeatures 子功能
      */
     private array $subFeatures;
+
+    /**
+     * @var Permissions[] $permissions 權限
+     */
+    private array $permissions;
 
     public function setFeature(string $feature): void {
         $this->feature = $feature;
@@ -57,12 +62,12 @@ abstract class FeatureAbstract {
         return $this->model;
     }
 
-    public function setRoot(string $root): void {
-        $this->root = $root;
+    public function setRootPath(string $routerPath): void {
+        $this->routerPath = $routerPath;
     }
 
-    public function getRoot(): string {
-        return $this->root;
+    public function getRootPath(): string {
+        return $this->routerPath;
     }
 
     public function setId(int $id): void {
@@ -80,4 +85,14 @@ abstract class FeatureAbstract {
     public function getSubFeatures(): array {
         return $this->subFeatures;
     }
+
+    public function setPermissions(array $permissions): void {
+        $this->permissions = $permissions;
+    }
+
+    public function getPermissions(): array {
+        return $this->permissions;
+    }
+
+    abstract public static function create(): FeatureAbstract;
 }

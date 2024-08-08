@@ -3,12 +3,22 @@
 namespace Harrison\LaravelFeatureManager\Models\ValueObjects\Features;
 
 use Harrison\LaravelFeatureManager\Models\DataType;
+use Harrison\LaravelFeatureManager\Models\Enums\Permissions;
 
 class DataTypeFeature extends FeatureAbstract {
-    public function __construct() {
-        $this->setName('資料類別');
-        $this->setModel(DataType::class);
-        $this->setRoot(route('dataType.index'));
-        $this->setId(2);
+    public static function create(): FeatureAbstract {
+        $dataTypeFeature = new self();
+        $dataTypeFeature->setName('資料類別');
+        $dataTypeFeature->setFeature('dataType');
+        $dataTypeFeature->setModel(DataType::class);
+        $dataTypeFeature->setRootPath('');
+        $dataTypeFeature->setId(2);
+        $dataTypeFeature->setPermissions([
+            Permissions::ADD,
+            Permissions::DELETE,
+            Permissions::EDIT,
+            Permissions::LIST,
+        ]);
+        return $dataTypeFeature;
     }
 }
