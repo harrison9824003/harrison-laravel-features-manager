@@ -4,6 +4,8 @@ namespace Harrison\LaravelFeatureManager\Console\Commands;
 
 use Harrison\LaravelFeatureManager\Models\DataType;
 use Harrison\LaravelFeatureManager\Models\DataTypeFolder;
+use Harrison\LaravelFeatureManager\Models\Enums\PermissionsEnum;
+use Harrison\LaravelFeatureManager\Models\Permission;
 use Harrison\LaravelFeatureManager\Models\ValueObjects\Features\FeatureAbstract;
 use Harrison\LaravelFeatureManager\Services\DataType\Admin as DataTypeAdmin;
 use Harrison\LaravelFeatureManager\Services\DataTypeFolder\Admin;
@@ -66,7 +68,10 @@ class InitFeaturesCommand extends Command
                 $parent = $dataTypteService->create($dataType);
 
                 // 建立子功能
-                $this->handelSubFeature($parent, $defaultFolder, $instance->getSubFeatures());
+                $this->handleSubFeature($parent, $defaultFolder, $instance->getSubFeatures());
+
+                // 建立權限
+                $this->handlePermissions($parent, $instance->getPermissions());
             }
             DB::connection('mysql')->commit();
         } catch (\Exception $e) {
@@ -80,7 +85,7 @@ class InitFeaturesCommand extends Command
     /**
      * @param FeatureAbstract[] $subFeature
      */
-    private function handelSubFeature(DataType $parent, DataTypeFolder $defaultFolder, array $subFeature): void {
+    private function handleSubFeature(DataType $parent, DataTypeFolder $defaultFolder, array $subFeature): void {
         /**
          * @var DataTypeAdmin $dataTypteService
          */
@@ -102,7 +107,31 @@ class InitFeaturesCommand extends Command
             $dataType->folder_id = $defaultFolder->id;
             $dataType->parent_id = $parent->id;
             $dataType->router_path = $instance->getRootPath();
-            $dataTypteService->create($dataType);
+            $dataType = $dataTypteService->create($dataType);
+
+            // 建立權限
+            $this->handlePermissions($dataType, $instance->getPermissions());
+        }
+    }
+
+    /**
+     * @var PermissionsEnum[] $permissions
+     */
+    private function handlePermissions(DataType $dataType, array $permissionsEnum): void {
+        /**
+         * @var PermissionsEnum $permissionEnum
+         */
+        foreach ($permissionsEnum as $permissionEnum) {
+            // insert into database
+            /**
+             * @var Permission $permission
+             */
+            $permission = app(Permission::class);
+            $permission->feature_id = $dataType->id;
+            $permission->permission = $permissionEnum->getPermissionName();
+            $permission->name = $permissionEnum->getPermissionChineseName();
+            $permission->code = $permissionEnum->value;
+            $permission->save();
         }
     }
 }

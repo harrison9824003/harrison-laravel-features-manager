@@ -2,7 +2,7 @@
 
 namespace Harrison\LaravelFeatureManager\Models\Enums;
 
-enum PermissionsName: string {
+enum PermissionsChineseNameEnum: string {
     case ADD = '新增';
     case DELETE = '刪除';
     case EDIT = '編輯';

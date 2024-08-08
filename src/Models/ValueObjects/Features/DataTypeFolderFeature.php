@@ -3,7 +3,7 @@
 namespace Harrison\LaravelFeatureManager\Models\ValueObjects\Features;
 
 use Harrison\LaravelFeatureManager\Models\DataTypeFolder;
-use Harrison\LaravelFeatureManager\Models\Enums\Permissions;
+use Harrison\LaravelFeatureManager\Models\Enums\PermissionsEnum;
 
 class DataTypeFolderFeature extends FeatureAbstract {
     public static function create(): FeatureAbstract {
@@ -17,10 +17,10 @@ class DataTypeFolderFeature extends FeatureAbstract {
             DataTypeFeature::class
         ]);
         $dataTypeFolderFeature->setPermissions([
-            Permissions::ADD,
-            Permissions::DELETE,
-            Permissions::EDIT,
-            Permissions::LIST,
+            PermissionsEnum::ADD,
+            PermissionsEnum::DELETE,
+            PermissionsEnum::EDIT,
+            PermissionsEnum::LIST,
         ]);
         return $dataTypeFolderFeature;
     }
