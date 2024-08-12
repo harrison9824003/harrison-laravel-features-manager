@@ -17,6 +17,7 @@ class HarrisonLaravelFeatureManager extends ServiceProvider
         ], 'harrison-feature-manager-config');
         $this->commands([
             \Harrison\LaravelFeatureManager\Console\Commands\InitFeaturesCommand::class,
+            \Harrison\LaravelFeatureManager\Console\Commands\RefreshFeaturesCommand::class,
         ]);
     }
 

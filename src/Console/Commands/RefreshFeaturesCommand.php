@@ -2,6 +2,7 @@
 
 namespace Harrison\LaravelFeatureManager\Console\Commands;
 
+use Exception;
 use Harrison\LaravelFeatureManager\Models\DataType;
 use Harrison\LaravelFeatureManager\Models\DataTypeFolder;
 use Harrison\LaravelFeatureManager\Models\Enums\PermissionsEnum;
@@ -12,11 +13,11 @@ use Harrison\LaravelFeatureManager\Services\DataTypeFolder\Admin;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
-class InitFeaturesCommand extends Command
+class RefreshFeaturesCommand extends Command
 {
-    protected $signature = 'harrison:init-features';
+    protected $signature = 'harrison:refresh-features';
 
-    protected $description = 'Init features';
+    protected $description = 'Refresh features';
 
     public function __construct(
         private DataTypeAdmin $dataTypteService,
@@ -25,11 +26,12 @@ class InitFeaturesCommand extends Command
         parent::__construct();
     }
 
-
     public function handle()
     {
         // 顯示訊息
         $this->info('Refresh features');
+
+        $this->deleteDataTypeAndDataTypeFolder();
 
         try {
             // todo 資料庫設定
@@ -130,6 +132,33 @@ class InitFeaturesCommand extends Command
             $permission->name = $permissionEnum->getPermissionChineseName();
             $permission->code = $permissionEnum->value;
             $permission->save();
+        }
+    }
+
+    private function deleteDataTypeAndDataTypeFolder(): void
+    {
+        try {
+            DB::connection('harrisonFeatureManager')->beginTransaction();
+
+            DB::connection('harrisonFeatureManager')->table('pj_data_type')->delete();
+            DB::connection('harrisonFeatureManager')->table('pj_datatype_folder')->delete();
+
+            // commit
+            DB::connection('harrisonFeatureManager')->commit();
+        } catch (Exception $e) {
+            // 顯示錯誤訊息
+            $this->error($e->getMessage());
+            // 回滾
+            DB::connection('harrisonFeatureManager')->rollBack();
+        }
+
+        try {
+            // auto increment reset
+            DB::connection('harrisonFeatureManager')->statement('ALTER TABLE pj_data_type AUTO_INCREMENT = 1');
+            DB::connection('harrisonFeatureManager')->statement('ALTER TABLE pj_datatype_folder AUTO_INCREMENT = 1');
+        } catch (Exception $e) {
+            // 顯示錯誤訊息
+            $this->error($e->getMessage());
         }
     }
 }
