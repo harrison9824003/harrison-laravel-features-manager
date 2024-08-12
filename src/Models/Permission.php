@@ -21,6 +21,8 @@ class Permission extends Model
 
     protected $table = 'pj_permission';
 
+    protected $connection = 'harrisonFeatureManager';
+
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime'

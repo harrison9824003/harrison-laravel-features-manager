@@ -28,6 +28,8 @@ class DataType extends Model
 
     protected $table = 'pj_data_type';
 
+    protected $connection = 'harrisonFeatureManager';
+
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime'
