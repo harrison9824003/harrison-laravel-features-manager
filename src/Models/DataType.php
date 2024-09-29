@@ -28,7 +28,7 @@ class DataType extends Model
 
     protected $table = 'pj_data_type';
 
-    protected $connection = 'harrisonFeatureManager';
+    protected $connection = 'harrison_laravel_feature_manager';
 
     protected $casts = [
         'created_at' => 'datetime',

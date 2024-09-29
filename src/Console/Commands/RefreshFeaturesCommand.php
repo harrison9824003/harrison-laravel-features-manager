@@ -35,9 +35,9 @@ class RefreshFeaturesCommand extends Command
 
         try {
             // todo 資料庫設定
-            DB::connection('harrisonFeatureManager')->beginTransaction();
+            DB::connection('harrison_laravel_feature_manager')->beginTransaction();
             // 取得設定檔
-            $config = config('harrisonFeatureManger');
+            $config = config('harrison_feature_manger');
 
             // 建立未分類 data type folder
             $dataTypeFolder = app(DataTypeFolder::class);
@@ -75,12 +75,12 @@ class RefreshFeaturesCommand extends Command
                 // 建立權限
                 $this->handlePermissions($parent, $instance->getPermissions());
             }
-            DB::connection('harrisonFeatureManager')->commit();
+            DB::connection('harrison_laravel_feature_manager')->commit();
         } catch (\Exception $e) {
             // 顯示錯誤訊息
             $this->error($e->getMessage());
             // 回滾
-            DB::connection('harrisonFeatureManager')->rollBack();
+            DB::connection('harrison_laravel_feature_manager')->rollBack();
         }
     }
 
@@ -138,24 +138,24 @@ class RefreshFeaturesCommand extends Command
     private function deleteDataTypeAndDataTypeFolder(): void
     {
         try {
-            DB::connection('harrisonFeatureManager')->beginTransaction();
+            DB::connection('harrison_laravel_feature_manager')->beginTransaction();
 
-            DB::connection('harrisonFeatureManager')->table('pj_data_type')->delete();
-            DB::connection('harrisonFeatureManager')->table('pj_datatype_folder')->delete();
+            DB::connection('harrison_laravel_feature_manager')->table('pj_data_type')->delete();
+            DB::connection('harrison_laravel_feature_manager')->table('pj_datatype_folder')->delete();
 
             // commit
-            DB::connection('harrisonFeatureManager')->commit();
+            DB::connection('harrison_laravel_feature_manager')->commit();
         } catch (Exception $e) {
             // 顯示錯誤訊息
             $this->error($e->getMessage());
             // 回滾
-            DB::connection('harrisonFeatureManager')->rollBack();
+            DB::connection('harrison_laravel_feature_manager')->rollBack();
         }
 
         try {
             // auto increment reset
-            DB::connection('harrisonFeatureManager')->statement('ALTER TABLE pj_data_type AUTO_INCREMENT = 1');
-            DB::connection('harrisonFeatureManager')->statement('ALTER TABLE pj_datatype_folder AUTO_INCREMENT = 1');
+            DB::connection('harrison_laravel_feature_manager')->statement('ALTER TABLE pj_data_type AUTO_INCREMENT = 1');
+            DB::connection('harrison_laravel_feature_manager')->statement('ALTER TABLE pj_datatype_folder AUTO_INCREMENT = 1');
         } catch (Exception $e) {
             // 顯示錯誤訊息
             $this->error($e->getMessage());

@@ -21,7 +21,7 @@ class DataTypeFolder extends Model
 
     protected $table = 'pj_datatype_folder';
 
-    protected $connection = 'harrisonFeatureManager';
+    protected $connection = 'harrison_laravel_feature_manager';
 
     protected $casts = [
         'created_at' => 'datetime',

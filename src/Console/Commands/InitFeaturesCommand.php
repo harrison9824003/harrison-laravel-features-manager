@@ -33,9 +33,9 @@ class InitFeaturesCommand extends Command
 
         try {
             // todo 資料庫設定
-            DB::connection('harrisonFeatureManager')->beginTransaction();
+            DB::connection('harrison_laravel_feature_manager')->beginTransaction();
             // 取得設定檔
-            $config = config('harrisonFeatureManger');
+            $config = config('harrison_feature_manger');
 
             // 建立未分類 data type folder
             $dataTypeFolder = app(DataTypeFolder::class);
@@ -73,12 +73,12 @@ class InitFeaturesCommand extends Command
                 // 建立權限
                 $this->handlePermissions($parent, $instance->getPermissions());
             }
-            DB::connection('harrisonFeatureManager')->commit();
+            DB::connection('harrison_laravel_feature_manager')->commit();
         } catch (\Exception $e) {
             // 顯示錯誤訊息
             $this->error($e->getMessage());
             // 回滾
-            DB::connection('harrisonFeatureManager')->rollBack();
+            DB::connection('harrison_laravel_feature_manager')->rollBack();
         }
     }
 
