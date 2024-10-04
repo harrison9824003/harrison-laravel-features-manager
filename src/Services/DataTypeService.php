@@ -1,11 +1,11 @@
 <?php
 
-namespace Harrison\LaravelFeatureManager\Services\DataType;
+namespace Harrison\LaravelFeatureManager\Services;
 
 use Harrison\LaravelFeatureManager\Models\DataType;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class Admin
+class DataTypeService
 {
     public function getList(int $dataTypeFolder): LengthAwarePaginator {
         return DataType::where('folder_id', $dataTypeFolder)->paginate(

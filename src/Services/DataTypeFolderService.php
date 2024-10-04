@@ -1,11 +1,11 @@
 <?php
 
-namespace Harrison\LaravelFeatureManager\Services\DataTypeFolder;
+namespace Harrison\LaravelFeatureManager\Services;
 
 use Harrison\LaravelFeatureManager\Models\DataTypeFolder;
 use Illuminate\Support\Collection;
 
-class Admin
+class DataTypeFolderService
 {
     public function getList(): Collection {
         return DataTypeFolder::paginate(

@@ -7,8 +7,8 @@ use Harrison\LaravelFeatureManager\Models\DataTypeFolder;
 use Harrison\LaravelFeatureManager\Models\Enums\PermissionsEnum;
 use Harrison\LaravelFeatureManager\Models\Permission;
 use Harrison\LaravelFeatureManager\Models\ValueObjects\Features\FeatureAbstract;
-use Harrison\LaravelFeatureManager\Services\DataType\Admin as DataTypeAdmin;
-use Harrison\LaravelFeatureManager\Services\DataTypeFolder\Admin;
+use Harrison\LaravelFeatureManager\Services\DataTypeService;
+use Harrison\LaravelFeatureManager\Services\DataTypeFolderService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
@@ -19,8 +19,8 @@ class InitFeaturesCommand extends Command
     protected $description = 'Init features';
 
     public function __construct(
-        private DataTypeAdmin $dataTypteService,
-        private Admin $dataTypeFolderAdminService,
+        private DataTypeFolderService $dataTypeFolderService,
+        private DataTypeService $dataTypeService
     ) {
         parent::__construct();
     }
@@ -42,7 +42,7 @@ class InitFeaturesCommand extends Command
             $dataTypeFolder->name = '未分類';
             $dataTypeFolder->models = '';
 
-            $defaultFolder = $this->dataTypeFolderAdminService->create($dataTypeFolder);
+            $defaultFolder = $this->dataTypeFolderService->create($dataTypeFolder);
 
             // 建立 features array 中的 class
             /**
@@ -65,7 +65,7 @@ class InitFeaturesCommand extends Command
                 $dataType->folder_id = $defaultFolder->id;
                 $dataType->parent_id = 0;
                 $dataType->router_path = $instance->getRootPath();
-                $parent = $this->dataTypteService->create($dataType);
+                $parent = $this->dataTypeService->create($dataType);
 
                 // 建立子功能
                 $this->handleSubFeature($parent, $defaultFolder, $instance->getSubFeatures());
@@ -104,7 +104,7 @@ class InitFeaturesCommand extends Command
             $dataType->folder_id = $defaultFolder->id;
             $dataType->parent_id = $parent->id;
             $dataType->router_path = $instance->getRootPath();
-            $dataType = $this->dataTypteService->create($dataType);
+            $dataType = $this->dataTypeService->create($dataType);
 
             // 建立權限
             $this->handlePermissions($dataType, $instance->getPermissions());
