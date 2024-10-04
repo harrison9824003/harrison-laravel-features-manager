@@ -3,15 +3,19 @@
 namespace Harrison\LaravelFeatureManager\Services;
 
 use Harrison\LaravelFeatureManager\Models\DataTypeFolder;
-use Illuminate\Support\Collection;
+use Harrison\LaravelFeatureManager\Models\ValueObjects\Common\DataTypeFolderPageCondition;
+use Harrison\LaravelFeatureManager\Models\ValueObjects\Common\PageCondition;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class DataTypeFolderService
 {
-    public function getList(): Collection {
-        return DataTypeFolder::paginate(
-            $prePage = 15,
-            $columns = ['*']
-        );
+    public function getByPage(PageCondition $condition): LengthAwarePaginator {
+        return DataTypeFolder::with('dataType')
+            ->paginate(
+                perPage: $condition->getLimit(),
+                columns: $condition->getColumns(),
+                page: $condition->getPage(),
+            );
     }
 
     public function getById(int $id): DataTypeFolder {

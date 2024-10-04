@@ -3,15 +3,30 @@
 namespace Harrison\LaravelFeatureManager\Services;
 
 use Harrison\LaravelFeatureManager\Models\DataType;
+use Harrison\LaravelFeatureManager\Models\ValueObjects\Common\DataTypePageCondition;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class DataTypeService
 {
-    public function getList(int $dataTypeFolder): LengthAwarePaginator {
-        return DataType::where('folder_id', $dataTypeFolder)->paginate(
-            $prePage = 15,
-            $columns = ['*']
-        );
+    public function getPage(DataTypePageCondition $condition): LengthAwarePaginator {
+        return DataType::orderBy('id', 'desc')
+            ->paginate(
+                $page = $condition->getPage(),
+                $prePage = $condition->getLimit(),
+                $columns = $condition->getColumns()
+            );
+    }
+
+    public function getListByFolderId(DataTypePageCondition $condition): LengthAwarePaginator {
+        return DataType::orderBy('id', 'desc')
+            ->when($condition->getId(), function ($query, $id) {
+                return $query->where('folder_id', $id);
+            })       
+            ->paginate(
+                $page = $condition->getPage(),
+                $prePage = $condition->getLimit(),
+                $columns = $condition->getColumns()
+            );
     }
 
     public function getById(int $id): DataType {

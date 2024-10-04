@@ -32,4 +32,9 @@ class DataTypeFolder extends Model
         'name',
         'models'
     ];
+
+    public function dataType()
+    {
+        return $this->hasMany(DataType::class, 'folder_id', 'id');
+    }
 }
